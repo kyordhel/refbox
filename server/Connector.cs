@@ -9,8 +9,9 @@ namespace RefBox
 	/// Represents the method that will handle the MessageReceived event of a connector
 	/// </summary>
 	/// <param name="connector">The Connector object that rises the event</param>
+	/// <param name="source">The IPEndPoint where message comes from</param>
 	/// <param name="message">The message received</param>
-	public delegate void MessageReceivedEventHandler(Connector connector, string message);
+	public delegate void MessageReceivedEventHandler(Connector connector, IPEndPoint source, string message);
 
 	/// <summary>
 	/// Implements UDP connectivity
@@ -89,11 +90,12 @@ namespace RefBox
 		/// <summary>
 		/// Raises the message received event.
 		/// </summary>
+		/// <param name="message">The message's source.</param>
 		/// <param name="message">The message.</param>
-		protected void OnMessageReceived(string message){
+		protected void OnMessageReceived(string message, IPEndPoint source){
 			try{
 				if(this.MessageReceived != null)
-					MessageReceived(this, message);
+					MessageReceived(this, source, message);
 			}catch{}
 		}
 
@@ -105,13 +107,15 @@ namespace RefBox
 			byte[] data = this.listener.EndReceive (result, ref clientEP);
 			this.listener.BeginReceive (ReceiveCallback, null);
 			string sData = ASCIIEncoding.UTF8.GetString (data);
-			OnMessageReceived(sData);
+			OnMessageReceived(sData, clientEP);
 		}
 
 		/// <summary>
 		/// Starts async reception of UDP messages
 		/// </summary>
 		public void Start(){
+			if(listener != null)
+				return;
 			this.listener = new UdpClient (portIn);
 			this.listener.EnableBroadcast = true;
 			this.listener.DontFragment = true;

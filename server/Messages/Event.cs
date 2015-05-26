@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -18,6 +19,12 @@ namespace RefBox
 		/// </summary>
 		[XmlText]
 		public string Value { get; set; }
+
+		/// <summary>
+		/// Gets or sets the IPEndPoint where message comes from.
+		/// </summary>
+		[XmlIgnore]
+		public IPEndPoint Source{ get; set; }
 	}
 }
 

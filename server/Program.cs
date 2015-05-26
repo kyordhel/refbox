@@ -6,9 +6,11 @@ namespace RefBox
 	{
 		public static void Main (string[] args)
 		{
-			new UdpListener ().Run();
+			Console.CancelKeyPress+=new ConsoleCancelEventHandler(CtrlC_event);
+			// new UdpListener ().Run();
 			Refbox box = new Refbox ();
-			box.StartTest (480);
+			box.PrepareTest ("GPSR", new TimeSpan (0, 1, 10), "eR@sers");
+			box.StartTest ();
 			System.Threading.Thread.Sleep (50);
 			while (true) {
 				Console.Write ("Enter CONTINUE text: ");
