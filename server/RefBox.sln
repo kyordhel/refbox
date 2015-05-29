@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefBox", "RefBox.csproj", "{430EB17E-A965-4771-9E4B-B2804BB9AC75}"
 EndProject
 Global
@@ -14,7 +14,7 @@ Global
 		{430EB17E-A965-4771-9E4B-B2804BB9AC75}.Release|x86.ActiveCfg = Release|x86
 		{430EB17E-A965-4771-9E4B-B2804BB9AC75}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = RefBox.csproj
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

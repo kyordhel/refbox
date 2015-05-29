@@ -36,6 +36,11 @@ namespace RefBox
 		/// </summary>
 		private Log testLog;
 
+		/// <summary>
+		/// Indicates if the START signal has already been sent
+		/// </summary>
+		private bool testStarted;
+
 		#endregion
 
 		#region Constructor
@@ -81,6 +86,11 @@ namespace RefBox
 		/// Stores the name of the current test
 		/// </summary>
 		public string TestName{ get; private set; }
+
+		/// <summary>
+		/// Gets a value indicating wether the START signal has already been sent
+		/// </summary>
+		public bool TestStarted { get { return this.testStarted; } }
 
 		#endregion
 
@@ -187,6 +197,8 @@ namespace RefBox
 		/// Starts the message log, the test countdown, and broadcasts the START and first TIME signals
 		/// </summary>
 		public void StartTest(){
+			if (testStarted) return;
+			testStarted = true;
 			this.sw.Reset ();
 			this.Broadcast (Signal.Start);
 			this.sw.Start ();
@@ -197,6 +209,7 @@ namespace RefBox
 		/// Stops the  message log, the test countdown, and broadcasts the STOP signal
 		/// </summary>
 		public void StopTest(){
+			testStarted = false;
 			this.timer.Change (-1, -1);
 			this.cnn.Broadcast (Signal.Stop);
 			this.sw.Stop ();

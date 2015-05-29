@@ -83,6 +83,8 @@ namespace RefBox
 				byte[] bAddress = addresses [i].GetAddressBytes ();
 				bAddress [3] = 255;
 				IPAddress address = new IPAddress (bAddress);
+				if (address.AddressFamily != AddressFamily.InterNetwork)
+					continue;
 				IPEndPoint ep = new IPEndPoint (address, portOut);
 				listener.Send (dgram, dgram.Length, ep);
 			}

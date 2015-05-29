@@ -12,7 +12,9 @@ namespace RefBox
 		private UdpClient listener;
 		private int listenPort;
 
-		public UdpListener (int listenPort = 3001)
+		public UdpListener() : this(3001) { }
+
+		public UdpListener (int listenPort)
 		{
 			this.listenPort = listenPort;
 			this.listener = new UdpClient(listenPort);

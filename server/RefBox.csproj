@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
+    <ProductVersion>9.0.21022</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{430EB17E-A965-4771-9E4B-B2804BB9AC75}</ProjectGuid>
     <OutputType>Exe</OutputType>
@@ -34,12 +34,27 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
     <Reference Include="System.Xml" />
     <Reference Include="System" />
+    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
+    <Compile Include="RefBoxGUI.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RefBoxGUI.Designer.cs">
+      <DependentUpon>RefBoxGUI.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TestInfo.cs" />
     <Compile Include="UdpListener.cs" />
     <Compile Include="Messages\Signal.cs" />
     <Compile Include="Messages\Event.cs" />
@@ -49,6 +64,32 @@
     <Compile Include="Log.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Messages\" />
+    <EmbeddedResource Include="RefBoxGUI.resx">
+      <DependentUpon>RefBoxGUI.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\injectBlue32.png" />
+    <None Include="Resources\injectBlue48.png" />
+    <None Include="Resources\injectGreen32.png" />
+    <None Include="Resources\injectGreen48.png" />
+    <None Include="Resources\refresh32.png" />
+    <None Include="Resources\refresh48.png" />
+    <None Include="Resources\run32.png" />
+    <None Include="Resources\run48.png" />
+    <None Include="Resources\stop32.png" />
+    <None Include="Resources\stop48.png" />
+    <Content Include="teams.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="tests.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
