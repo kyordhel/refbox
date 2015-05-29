@@ -112,6 +112,7 @@ namespace RefBox
 		/// <param name="message">The message received</param>
 		private void connector_MessageReceived (Connector connector, System.Net.IPEndPoint source, string message)
 		{
+			Console.Write('.');
 			Event e = Serializer.DeserializeEvent (message);
 			if (e == null)
 				return;

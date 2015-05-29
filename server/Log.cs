@@ -26,7 +26,7 @@ namespace RefBox
 			: this(Path.Combine(LogPath, String.Format("{0}_{1}_{2}.log",
 			                                String.IsNullOrEmpty (testName) ? "test" : StringToValidFilename (testName),
 			                                String.IsNullOrEmpty (teamName) ? "team" : StringToValidFilename (teamName),
-											DateTime.Now.ToString("yyyy-MM-dd_hhmmss")
+											DateTime.Now.ToString("yyyy-MM-dd_HHmmss")
 		))){
 
 			Log.sessionLog.WriteLine ();
@@ -67,7 +67,7 @@ namespace RefBox
 
 		public void Write(int elapsed, Signal signal){
 
-			String record = String.Format ("{0} Sent SIGNAL {1} = {2}", ElapsedToString(elapsed), signal.Type, signal.Value);
+			string record = String.Format ("{0} Sent SIGNAL {1} = {2}", ElapsedToString(elapsed), signal.Type, signal.Value);
 			this.WriteLine (record);
 			if (this != Log.sessionLog) {
 				Log.sessionLog.WriteLine ("{0} Time {1}", Now, record);
@@ -75,10 +75,10 @@ namespace RefBox
 		}
 
 		public void Write(int elapsed, Event e){
-			string source = e.Source == null ?
+			string source = e.Source != null ?
 				String.Format ("{0} Src {1}", String.Empty.PadLeft(5), e.Source) :
 				String.Empty;
-			string sEvent = String.Format ("{0} Rcv  EVENT  {1} = {2}{4}{5} Src {3}", Log.Now, e.Type, e.Value, source);
+			string sEvent = String.Format ("{0} Rcv  EVENT  {1} = {2}", ElapsedToString(elapsed), e.Type, e.Value);
 			this.WriteLine ("{0}{1}{2}", sEvent, Environment.NewLine, source);
 			if (this != Log.sessionLog) {
 				string sNow = Now;
@@ -113,11 +113,11 @@ namespace RefBox
 		static Log(){
 			if(!Directory.Exists(LogPath))
 				Directory.CreateDirectory("logs");
-			Log.sessionLog = new Log(Path.Combine(LogPath, String.Format("refbox_{0}.log", DateTime.Now.ToString("yyyy-MM-dd_hhmmss"))));
-			Log.sessionLog.WriteHeader(String.Format("RefBox started on {0}", DateTime.Now.ToString("yyyy-MM-dd hh:mm:ss")));
+			Log.sessionLog = new Log(Path.Combine(LogPath, String.Format("refbox_{0}.log", DateTime.Now.ToString("yyyy-MM-dd_HHmmss"))));
+			Log.sessionLog.WriteHeader(String.Format("RefBox started on {0}", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")));
 		}
 
-		private static string Now{get { return DateTime.Now.ToString ("yyyy-MM-dd hh:mm:ss"); } }
+		private static string Now{get { return DateTime.Now.ToString ("yyyy-MM-dd HH:mm:ss"); } }
 
 		private static string StringToValidFilename(string s){
 			if (String.IsNullOrEmpty (s))

@@ -73,7 +73,8 @@ namespace RefBox
 			// Serialize signal
 			string serialized = Serializer.Serialize (signal);
 			// Get DGRAM
-			byte[] dgram = ASCIIEncoding.UTF8.GetBytes (serialized + "\x03");
+			// byte[] dgram = ASCIIEncoding.UTF8.GetBytes (serialized + "\x00\x04");
+			byte[] dgram = ASCIIEncoding.UTF8.GetBytes (serialized);
 			// Get all ip addresses
 			IPAddress[] addresses = Dns.GetHostAddresses (Dns.GetHostName ());
 			// Over each IP addresses

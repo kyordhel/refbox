@@ -19,6 +19,11 @@ namespace RefBox
 		[XmlText]
 		public string Value { get; set; }
 
+		public override string ToString ()
+		{
+			return string.Format ("[Signal: Type={0}, Value={1}]", Type, Value);
+		}
+
 		/// <summary>
 		/// Creates a time signal with the specified remaining time in seconds
 		/// </summary>

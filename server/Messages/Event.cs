@@ -25,6 +25,11 @@ namespace RefBox
 		/// </summary>
 		[XmlIgnore]
 		public IPEndPoint Source{ get; set; }
+
+		public override string ToString ()
+		{
+			return string.Format ("[Event: Type={0}, Value={1}, Source={2}]", Type, Value, Source);
+		}
 	}
 }
 
