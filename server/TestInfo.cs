@@ -7,30 +7,96 @@ namespace RefBox
 {
 	public class TestInfo
 	{
+		private string name;
+		private TimeSpan duration;
+
 		/// <summary>
 		/// Initializes a new instance of TestInfo
 		/// </summary>
-		private TestInfo(){}
+		private TestInfo() { }
 
 		/// <summary>
 		/// Initializes a new instance of TestInfo
 		/// </summary>
 		/// <param name="name">The name of the test</param>
-		/// <param name="duration">The duration of the test in minutes</param>
-		public TestInfo(string name, int duration)
+		/// <param name="duration">The duration of the test</param>
+		public TestInfo(string name, TimeSpan duration)
 		{
 			this.Name = name;
-			this.Duration = new TimeSpan(0, duration, 0);
+			this.Duration = duration;
 		}
 
 		/// <summary>
-		/// Gets or sets the name of the test
+		/// Initializes a new instance of TestInfo
 		/// </summary>
-		public string Name { get; set; }
+		/// <param name="name">The name of the test</param>
+		/// <param name="m">The accumulative duration of the test in minutes</param>
+		public TestInfo(string name, int m)
+			: this(name, new TimeSpan(0, m, 0)) { }
+
 		/// <summary>
-		/// Gets or sets the duration of the test
+		/// Initializes a new instance of TestInfo
 		/// </summary>
-		public TimeSpan Duration { get; set; }
+		/// <param name="name">The name of the test</param>
+		/// <param name="h">The accumulative duration of the test in hours</param>
+		/// <param name="m">The accumulative duration of the test in minutes</param>
+		/// <param name="s">The accumulative duration of the test in seconds</param>
+		public TestInfo(string name, int h, int m, int s)
+			: this(name, new TimeSpan(h, m, s)){}
+
+		/// <summary>
+		/// Gets the name of the test
+		/// </summary>
+		public string Name { 
+			get{return this.name;}
+			protected set
+			{
+				if (String.IsNullOrEmpty(value))
+					throw new ArgumentNullException("value", "Test name cannot be null nor empty");
+				this.name = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets the duration of the test
+		/// </summary>
+		public TimeSpan Duration {
+			get { return this.duration; }
+			protected set
+			{
+				if ((value.TotalSeconds < 30) || (value.TotalSeconds > 86400))
+					throw new ArgumentOutOfRangeException("value", "Test Time must be between 30 seconds and 1 day (86400 secs)");
+				this.duration = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets the duration of the test in seconds
+		/// </summary>
+		public int DurationMin
+		{
+			get { return (int)this.duration.TotalSeconds; }
+			protected set
+			{
+				if ((value < 1) || (value > 1440))
+					throw new ArgumentOutOfRangeException("value", "Test Time must be between 30 seconds and 1 day (86400 secs)");
+				this.duration = new TimeSpan(0, value, 0);
+			}
+		}
+
+		/// <summary>
+		/// Gets the duration of the test in seconds
+		/// </summary>
+		public int TestTime
+		{
+			get { return (int)this.duration.TotalSeconds; }
+			protected set
+			{
+				if ((value < 30) || (value > 86400))
+					throw new ArgumentOutOfRangeException("value", "Test Time must be between 30 seconds and 1 day (86400 secs)");
+				this.duration = new TimeSpan(0, 0, value);
+			}
+		}
 
 		public override string ToString()
 		{

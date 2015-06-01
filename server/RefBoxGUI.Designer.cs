@@ -29,6 +29,7 @@
 		private void InitializeComponent()
 		{
 			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RefBoxGUI));
 			this.gbTestSettings = new System.Windows.Forms.GroupBox();
 			this.nudTestTime = new System.Windows.Forms.NumericUpDown();
 			this.cbTeam = new System.Windows.Forms.ComboBox();
@@ -190,21 +191,22 @@
 			// 
 			this.btnRestart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnRestart.Enabled = false;
+			this.btnRestart.Image = global::RefBox.Resources.refresh32;
 			this.btnRestart.Location = new System.Drawing.Point(245, 19);
 			this.btnRestart.Name = "btnRestart";
-			this.btnRestart.Image = Resources.refresh32;
 			this.btnRestart.Size = new System.Drawing.Size(50, 50);
 			this.btnRestart.TabIndex = 1;
 			this.btnRestart.TabStop = false;
 			this.btnRestart.UseVisualStyleBackColor = true;
+			this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
 			// 
 			// btnSendContinue
 			// 
 			this.btnSendContinue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSendContinue.Enabled = false;
+			this.btnSendContinue.Image = global::RefBox.Resources.injectBlue32;
 			this.btnSendContinue.Location = new System.Drawing.Point(301, 75);
 			this.btnSendContinue.Name = "btnSendContinue";
-			this.btnSendContinue.Image = Resources.injectBlue32;
 			this.btnSendContinue.Size = new System.Drawing.Size(50, 50);
 			this.btnSendContinue.TabIndex = 6;
 			this.btnSendContinue.UseVisualStyleBackColor = true;
@@ -213,9 +215,9 @@
 			// btnStartStop
 			// 
 			this.btnStartStop.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnStartStop.Image = global::RefBox.Resources.run32;
 			this.btnStartStop.Location = new System.Drawing.Point(301, 19);
 			this.btnStartStop.Name = "btnStartStop";
-			this.btnStartStop.Image = Resources.run32;
 			this.btnStartStop.Size = new System.Drawing.Size(50, 50);
 			this.btnStartStop.TabIndex = 4;
 			this.btnStartStop.UseVisualStyleBackColor = true;
@@ -233,6 +235,7 @@
 			this.ClientSize = new System.Drawing.Size(381, 240);
 			this.Controls.Add(this.gbCurrentTest);
 			this.Controls.Add(this.gbTestSettings);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "RefBoxGUI";
 			this.Text = "RefBox";
 			this.gbTestSettings.ResumeLayout(false);

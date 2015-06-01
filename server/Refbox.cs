@@ -27,11 +27,6 @@ namespace RefBox
 		private Timer timer;
 
 		/// <summary>
-		/// Stores the test time
-		/// </summary>
-		private int testTime;
-
-		/// <summary>
 		/// The test log.
 		/// </summary>
 		private Log testLog;
@@ -54,8 +49,7 @@ namespace RefBox
 			this.cnn.MessageReceived+=new MessageReceivedEventHandler(connector_MessageReceived);
 			this.timer = new Timer(new TimerCallback(TimerTick));
 			this.sw = new Stopwatch ();
-			this.testTime = 600;
-			this.TestName = null;
+			this.TestInfo = new TestInfo("Unknown 5 min", 5);
 			this.TeamName = "Unknown";
 		}
 
@@ -74,7 +68,7 @@ namespace RefBox
 		/// Gets the test's remaining time in seconds.
 		/// </summary>
 		public int RemainingTime{
-			get{ return Math.Max(testTime - (int)(sw.ElapsedMilliseconds / 1000), 0);}
+			get{ return Math.Max(this.TestInfo.TestTime - (int)(sw.ElapsedMilliseconds / 1000), 0);}
 		}
 
 		/// <summary>
@@ -85,7 +79,7 @@ namespace RefBox
 		/// <summary>
 		/// Stores the name of the current test
 		/// </summary>
-		public string TestName{ get; private set; }
+		public TestInfo TestInfo{ get; private set; }
 
 		/// <summary>
 		/// Gets a value indicating wether the START signal has already been sent
@@ -108,11 +102,11 @@ namespace RefBox
 
 		void ChangeTeam (string teamName)
 		{
-			if (this.TestName == "Unknown")
+			if (this.TestInfo == null)
 				throw new OperationCanceledException ("PrepareTest method must be called first");
 			if(String.IsNullOrEmpty(teamName)) throw new ArgumentNullException("teamName");
 			this.TeamName = teamName;
-			this.testLog = new Log (TestName, testTime, teamName);
+			this.testLog = new Log (this.TestInfo, teamName);
 		}
 
 		/// <summary>
@@ -137,12 +131,14 @@ namespace RefBox
 		/// <param name="teamName">Team's name.</param>
 		/// <param name="testName">Test's name.</param>
 		/// <param name="testTime">Specifies the total test time in seconds.</param>
-		public void PrepareTest(string testName, int testTime){
-			if(String.IsNullOrEmpty(testName)) throw new ArgumentNullException("testName");
-			if((testTime < 30) || (testTime > 86400))
-				throw new ArgumentOutOfRangeException("testTime", "testTime must be between 30 seconds and 1 day (86400 secs)");
-			this.testTime = testTime;
-			this.TestName = testName;
+		public void PrepareTest(TestInfo testInfo){
+			if (testStarted)
+				throw new Exception("Cannot prepare a test while another is running");
+			if(testInfo == null) throw new ArgumentNullException("testInfo");
+			if (String.IsNullOrEmpty(testInfo.Name)) throw new ArgumentNullException("testInfo", "Test name cannot be null nor empty");
+			if ((testInfo.Duration.TotalSeconds < 30) || (testInfo.Duration.TotalSeconds > 86400))
+				throw new ArgumentOutOfRangeException("testInfo", "Test Time must be between 30 seconds and 1 day (86400 secs)");
+			this.TestInfo = TestInfo;
 			this.cnn.Start();
 		}
 
@@ -153,7 +149,7 @@ namespace RefBox
 		/// <param name="testName">Test's name.</param>
 		/// <param name="testTime">Specifies the total test time.</param>
 		public void PrepareTest(string testName, TimeSpan testTime){
-			this.PrepareTest (testName, (int)testTime.TotalSeconds);
+			this.PrepareTest (new TestInfo(testName, testTime));
 		}
 
 		/// <summary>
@@ -163,7 +159,7 @@ namespace RefBox
 		/// <param name="testName">Test's name.</param>
 		/// <param name="testTime">Specifies the total test time in seconds.</param>
 		public void PrepareTest(string testName, int testTime, string teamName){
-			this.PrepareTest (testName, testTime);
+			this.PrepareTest (new TestInfo(testName, 0, 0, testTime));
 			this.ChangeTeam(teamName);
 		}
 
@@ -182,7 +178,9 @@ namespace RefBox
 		/// Test countdown timer is not afected
 		/// </summary>
 		public void RestartTest(){
+			if (!testStarted) return;
 			this.Broadcast (Signal.Start);
+			this.Broadcast(Signal.CreateTime(this.RemainingTime));
 		}
 
 		/// <summary>

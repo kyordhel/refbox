@@ -68,29 +68,6 @@ namespace RefBox
 			return acceptedLines;
 		}
 
-		private void cbTest_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (cbTest.SelectedIndex == -1)
-				return;
-			TestInfo ti = (TestInfo)cbTest.SelectedItem;
-			nudTestTime.Value = (decimal)ti.Duration.TotalSeconds / 60;
-		}
-
-		private void btnStartStop_Click(object sender, EventArgs e)
-		{
-			if ((cbTest.SelectedIndex == -1) || (cbTeam.SelectedIndex == -1))
-				return;
-			TestInfo ti = (TestInfo)cbTest.SelectedItem;
-			if (!Refbox.TestStarted)
-			{
-				Refbox.PrepareTest(ti.Name, (int)ti.Duration.TotalSeconds, cbTeam.Text);
-				Refbox.StartTest();
-			}
-			else
-				Refbox.StopTest();
-			UpdateControls();
-		}
-
 		private void UpdateControls()
 		{
 			gbTestSettings.Enabled = !Refbox.TestStarted;
@@ -145,6 +122,34 @@ namespace RefBox
 		private void txtContinue_TextChanged(object sender, EventArgs e)
 		{
 			btnSendContinue.Enabled = Refbox.TestStarted && (txtContinue.Text.Length > 0);
+		}
+
+		private void btnRestart_Click(object sender, EventArgs e)
+		{
+			Refbox.RestartTest();
+		}
+
+		private void cbTest_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (cbTest.SelectedIndex == -1)
+				return;
+			TestInfo ti = (TestInfo)cbTest.SelectedItem;
+			nudTestTime.Value = (decimal)ti.Duration.TotalSeconds / 60;
+		}
+
+		private void btnStartStop_Click(object sender, EventArgs e)
+		{
+			if ((cbTest.SelectedIndex == -1) || (cbTeam.SelectedIndex == -1))
+				return;
+			TestInfo ti = (TestInfo)cbTest.SelectedItem;
+			if (!Refbox.TestStarted)
+			{
+				Refbox.PrepareTest(ti.Name, (int)ti.Duration.TotalSeconds, cbTeam.Text);
+				Refbox.StartTest();
+			}
+			else
+				Refbox.StopTest();
+			UpdateControls();
 		}
 	}
 }

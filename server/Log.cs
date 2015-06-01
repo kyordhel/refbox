@@ -22,6 +22,8 @@ namespace RefBox
 			this.writer = StreamWriter.Synchronized (new StreamWriter (fileName){AutoFlush = true});
 		}
 
+		public Log(TestInfo testInfo, string teamName) : this(testInfo.Name, testInfo.TestTime, teamName) { }
+
 		public Log (string testName, int testTime, string teamName)
 			: this(Path.Combine(LogPath, String.Format("{0}_{1}_{2}.log",
 			                                String.IsNullOrEmpty (testName) ? "test" : StringToValidFilename (testName),
