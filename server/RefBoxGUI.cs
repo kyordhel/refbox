@@ -26,46 +26,12 @@ namespace RefBox
 
 		private void LoadTeams()
 		{
-			try
-			{
-				this.cbTeam.Items.AddRange(LoadTextFile("teams.txt").ToArray());
-			}
-			catch {  }
-			if (this.cbTeam.Items.Count < 1)
-				this.cbTeam.Items.Add("Team");
+			this.cbTeam.Items.AddRange(Loader.LoadTeams().ToArray());
 		}
 
 		private void LoadTests()
 		{
-			try
-			{
-				List<string> lines = LoadTextFile("tests.txt");
-				foreach(string line in lines)
-				{
-					TestInfo ti;
-					if(TestInfo.TryParse(line, out ti))
-						cbTest.Items.Add(ti);
-				}
-			}
-			catch {  }
-			if (this.cbTest.Items.Count < 1)
-			this.cbTest.Items.Add(new TestInfo("Test", 5));
-		}
-
-		private List<string> LoadTextFile(string path)
-		{
-			string[] lines = File.ReadAllText(path).Split('\r', '\n');
-			List<string> acceptedLines = new List<string>(lines.Length);
-			for (int i = 0; i < lines.Length; ++i)
-			{
-				lines[i] = lines[i].Trim();
-				int ix = lines[i].IndexOf('#');
-				if (ix >= 0)
-					lines[i] = lines[i].Substring(ix).Trim();
-				if (lines[i].Length > 0)
-					acceptedLines.Add(lines[i]);
-			}
-			return acceptedLines;
+			this.cbTest.Items.AddRange(Loader.LoadTests().ToArray());
 		}
 
 		private void UpdateControls()

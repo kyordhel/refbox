@@ -71,11 +71,11 @@ namespace RefBox
 		}
 
 		/// <summary>
-		/// Gets the duration of the test in seconds
+		/// Gets the duration of the test in minutes
 		/// </summary>
 		public int DurationMin
 		{
-			get { return (int)this.duration.TotalSeconds; }
+			get { return (int)this.duration.TotalMinutes; }
 			protected set
 			{
 				if ((value < 1) || (value > 1440))
@@ -111,12 +111,12 @@ namespace RefBox
 
 		static TestInfo()
 		{
-			rxParser = new Regex(@"(?<name>\w+(\s+\w+)?)\s+\[?\s*(?<min>\d{1,3}):(?<sec>\d{2})\s*\]?");
+			rxParser = new Regex(@"(?<name>\w+(\s+\w+)*)\s+\[?\s*(?<min>\d{1,3}):(?<sec>\d{2})\s*\]?");
 		}
 
 		public static bool TryParse(string s, out TestInfo ti)
 		{
-			ti = new TestInfo("Team", 0);
+			ti = new TestInfo();
 			Match m = rxParser.Match(s);
 			if (!m.Success)
 				return false;

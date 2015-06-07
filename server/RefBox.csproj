@@ -43,6 +43,13 @@
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Terminal\CommandHistoryManager.cs" />
+    <Compile Include="Terminal\CompletionTree.cs" />
+    <Compile Include="Terminal\CompletionTreeNode.cs" />
+    <Compile Include="Terminal\ConsoleManager.cs" />
+    <Compile Include="Terminal\Help.cs" />
+    <Compile Include="Terminal\Kernel.cs" />
+    <Compile Include="Loader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="RefBoxGUI.cs">
       <SubType>Form</SubType>

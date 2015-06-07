@@ -128,9 +128,7 @@ namespace RefBox
 		/// <summary>
 		/// Supplies the Referee Box with information for the next test
 		/// </summary>
-		/// <param name="teamName">Team's name.</param>
-		/// <param name="testName">Test's name.</param>
-		/// <param name="testTime">Specifies the total test time in seconds.</param>
+		/// <param name="testInfo">Test information.</param>
 		public void PrepareTest(TestInfo testInfo){
 			if (testStarted)
 				throw new Exception("Cannot prepare a test while another is running");
@@ -138,14 +136,24 @@ namespace RefBox
 			if (String.IsNullOrEmpty(testInfo.Name)) throw new ArgumentNullException("testInfo", "Test name cannot be null nor empty");
 			if ((testInfo.Duration.TotalSeconds < 30) || (testInfo.Duration.TotalSeconds > 86400))
 				throw new ArgumentOutOfRangeException("testInfo", "Test Time must be between 30 seconds and 1 day (86400 secs)");
-			this.TestInfo = TestInfo;
+			this.TestInfo = testInfo;
 			this.cnn.Start();
 		}
 
 		/// <summary>
 		/// Supplies the Referee Box with information for the next test
 		/// </summary>
+		/// <param name="testInfo">Test information.</param>
 		/// <param name="teamName">Team's name.</param>
+		public void PrepareTest(TestInfo testInfo, string teamName)
+		{
+			PrepareTest(testInfo);
+			this.ChangeTeam(teamName);
+		}
+
+		/// <summary>
+		/// Supplies the Referee Box with information for the next test
+		/// </summary>
 		/// <param name="testName">Test's name.</param>
 		/// <param name="testTime">Specifies the total test time.</param>
 		public void PrepareTest(string testName, TimeSpan testTime){
