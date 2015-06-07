@@ -10,8 +10,11 @@ namespace RefBox
 		public static void Main (string[] args)
 		{
 			Console.Title = "RefBox Server";
+			Application.EnableVisualStyles();
+			Application.SetCompatibleTextRenderingDefault(false);
 			Refbox box = new Refbox ();
 			Console.WriteLine("RefBox Server Started");
+			Console.WriteLine("Press F1 to start the GUI");
 			Console.WriteLine();
 
 			Kernel kernel = new Kernel(box);
@@ -40,10 +43,8 @@ namespace RefBox
 			// box.StopTest ();
 		}
 
-		private static void RunGUI(Refbox box)
+		public static void RunGUI(Refbox box)
 		{
-			Application.EnableVisualStyles();
-			Application.SetCompatibleTextRenderingDefault(false);
 			Application.Run(new RefBoxGUI() { Refbox = box });
 		}
 	}

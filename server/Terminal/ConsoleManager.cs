@@ -199,6 +199,9 @@ namespace RefBox.Terminal
 					FixCursor();
 					return;
 
+				case ConsoleKey.F1:
+					Program.RunGUI(refbox);
+					break;
 			}
 		}
 
